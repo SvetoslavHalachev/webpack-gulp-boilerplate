@@ -6,6 +6,7 @@ const notify        = require('gulp-notify');
 const sass          = require('gulp-sass');
 const sassGlob      = require('gulp-sass-glob');
 const sourcemaps    = require('gulp-sourcemaps');
+const autoprefixer  = require('gulp-autoprefixer');
 const plumber       = require('gulp-plumber');
 const del           = require('del');
 const browserSync   = require('browser-sync');
@@ -131,6 +132,10 @@ const handleHtml = () => gulp.src([
 const handleSass = () => gulp.src([
 	handlePath(paths.src, '/sass/**/*.scss')
 ]).pipe(
+	plumber({
+		errorHandler: handleError
+	})
+).pipe(
 	sourcemaps.init()
 ).pipe(
 	sassGlob()
@@ -139,9 +144,7 @@ const handleSass = () => gulp.src([
 		outputStyle: 'compressed'
 	}).on('error', handleError)
 ).pipe(
-	plumber({
-		errorHandler: handleError
-	})
+	autoprefixer('last 3 versions')
 ).pipe(
 	sourcemaps.write()
 ).pipe(
