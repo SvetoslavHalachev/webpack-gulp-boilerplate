@@ -1,0 +1,30 @@
+{
+  "name": "Webpack & Gulp Task Runner",
+  "version": "1.0.0",
+  "description": "Simple webpack and gulp task runner.",
+  "private": "true",
+  "scripts": {
+    "start": "gulp --gulpfile config/gulp.js"
+  },
+  "author": "Svetoslav Halachev",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "browser-sync": "^2.24.5",
+    "del": "^3.0.0",
+    "fs": "0.0.1-security",
+    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-notify": "^3.2.0",
+    "gulp-plumber": "^1.2.0",
+    "gulp-sass": "^4.0.1",
+    "gulp-sass-glob": "^1.0.9",
+    "gulp-sourcemaps": "^2.6.4",
+    "path": "^0.12.7",
+    "webpack": "^4.15.1",
+    "webpack-cli": "^3.0.8",
+    "webpack-stream": "^4.0.3"
+  }
+}
