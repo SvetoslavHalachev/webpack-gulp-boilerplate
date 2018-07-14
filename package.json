@@ -1,5 +1,5 @@
 {
-  "name": "Webpack & Gulp Task Runner",
+  "name": "webpack-gulp-boilerplate",
   "version": "1.0.0",
   "description": "Simple webpack and gulp task runner.",
   "private": "true",
