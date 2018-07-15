@@ -10,15 +10,6 @@ module.exports = {
 		'../dev/**/*.js',
 		'../dev/**/*.html'
 	],
-	ghostMode: {
-		clicks: false,
-		scroll: true,
-		forms: {
-			submit: true,
-			inputs: true,
-			toggles: true
-		}
-	},
 	snippetOptions: {
 		rule: {
 			match: /<\/body>/i,
