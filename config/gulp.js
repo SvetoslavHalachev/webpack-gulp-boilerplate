@@ -129,6 +129,9 @@ const handleHtml = () => gulp.src([
 	)
 );
 
+/**
+ * @ Handle css files
+ */
 const handleSass = () => gulp.src([
 	handlePath(paths.src, '/sass/**/*.scss')
 ]).pipe(

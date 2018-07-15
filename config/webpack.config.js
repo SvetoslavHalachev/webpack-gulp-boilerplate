@@ -1,14 +1,13 @@
 /**
  * @ External dependencies.
  */
-const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
 	mode: 'development',
 
 	devtool: 'source-map',
-	
+
 	entry: {
 		app: '../src/js/main.js'
 	},
@@ -27,8 +26,8 @@ module.exports = {
 					babelrc: false,
 					presets: [
 						['env', {
-							'targets': {
-								'browsers': ['last 3 versions']
+							targets: {
+								browsers: ['last 3 versions']
 							}
 						}]
 					]
