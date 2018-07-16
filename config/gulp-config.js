@@ -225,22 +225,6 @@ const handleWatch = () => {
 };
 
 /**
- * @ Register gulp dev task
- */
-gulp.task('dev',
-	gulp.series(
-		handleClean,
-		gulp.parallel(
-			handleSass,
-			handleHtml,
-			handleScripts,
-			handleWatch,
-			handleReload
-		)
-	)
-);
-
-/**
  * @ Register gulp build task
  */
 gulp.task('build',
@@ -256,5 +240,14 @@ gulp.task('build',
  * @ Register gulp default task
  */
 gulp.task('default', 
-	gulp.parallel('dev')
+	gulp.series(
+		handleClean,
+		gulp.parallel(
+			handleSass,
+			handleHtml,
+			handleScripts,
+			handleWatch,
+			handleReload
+		)
+	)
 );
