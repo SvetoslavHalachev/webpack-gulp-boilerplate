@@ -6,14 +6,13 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 /**
  * @ Internal dependencies
  */
-const isProdEnv = require('./env');
-const isDevEnv = require('./env');
+const { env, isDevEnv } = require('./node-env');
 
 /**
  * @ Define webpack configs
  */
 module.exports = {
-	mode: process.env.NODE_ENV || 'development',
+	mode: env ? 'development' : 'production',
 
 	entry: {
 		app: '../src/js/main.js'
@@ -21,11 +20,11 @@ module.exports = {
 
 	devtool: isDevEnv ? 'source-map' : false,
 
-	watch: isDevEnv,
-
 	output: {
 		filename: 'js/[name].bundle.js'
 	},
+
+	watch: isDevEnv,
 
 	module: {
 		rules: [
@@ -47,7 +46,7 @@ module.exports = {
 		]
 	},
 
-	plugins: isProdEnv ? [
+	plugins: isDevEnv ? [] : [
 		new UglifyJsPlugin()
-	]:[]
+	]
 };

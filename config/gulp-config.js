@@ -8,6 +8,7 @@ const sassGlob      = require('gulp-sass-glob');
 const sourcemaps    = require('gulp-sourcemaps');
 const autoprefixer  = require('gulp-autoprefixer');
 const plumber       = require('gulp-plumber');
+const gulpif        = require('gulp-if');
 const del           = require('del');
 const browsersync   = require('browser-sync');
 const webpackStream = require('webpack-stream');
@@ -16,6 +17,7 @@ const webpack       = require('webpack');
 /**
  * @ Internal dependencies.
  */
+const { isDevEnv }      = require('./node-env');
 const browsersyncConfig = require('./browsersync-config');
 const webpackConfig     = require('./webpack.config');
 
@@ -25,6 +27,7 @@ const webpackConfig     = require('./webpack.config');
 const paths = {
 	src: '../src',
 	dev: '../dev',
+	build: '../build',
 	css: '/css',
 	scripts: {
 		entry: '../src/js/main.js'
@@ -46,6 +49,14 @@ const excludePath = (
 	defaultPath,
 	additionalPath
 ) => '!' + handlePath(defaultPath, additionalPath);
+
+/**
+ * @ Handle node environment paths
+ */
+const handleNodeEnvPath = (
+	devPath,
+	prodPath
+) => isDevEnv ? devPath : prodPath;
 
 /**
  * @ Handle error
@@ -87,7 +98,8 @@ const handleCopy = () => gulp.src([
  */
 const handleClean = () => del(
 	[
-		paths.dev
+		paths.dev,
+		paths.build
 	],
 	{
 		force: true
@@ -110,7 +122,17 @@ const handleScripts = () => gulp.src(
 	)
 ).pipe(
 	gulp.dest(
-		paths.dev
+		handleNodeEnvPath(
+			/**
+			 * @ Dev path
+			 */
+			paths.dev,
+
+			/**
+			 * @ Prod path
+			 */
+			paths.build
+		)
 	)
 );
 
@@ -125,7 +147,17 @@ const handleHtml = () => gulp.src([
 	})
 ).pipe(
 	gulp.dest(
-		paths.dev
+		handleNodeEnvPath(
+			/**
+			 * @ Dev path
+			 */
+			paths.dev,
+
+			/**
+			 * @ Prod path
+			 */
+			paths.build
+		)
 	)
 );
 
@@ -139,20 +171,36 @@ const handleSass = () => gulp.src([
 		errorHandler: handleError
 	})
 ).pipe(
-	sourcemaps.init()
+	gulpif(
+		isDevEnv,
+		sourcemaps.init()
+	)
 ).pipe(
 	sassGlob()
 ).pipe(
 	sass({
-		outputStyle: 'compressed'
+		outputStyle: isDevEnv ? 'compact' : 'compressed'
 	}).on('error', handleError)
 ).pipe(
 	autoprefixer('last 3 versions')
 ).pipe(
-	sourcemaps.write()
+	gulpif(
+		isDevEnv,
+		sourcemaps.write()
+	)
 ).pipe(
 	gulp.dest(
-		handlePath(paths.dev, paths.css)
+		handleNodeEnvPath(
+			/**
+			 * @ Dev path
+			 */
+			handlePath(paths.dev, paths.css),
+
+			/**
+			 * @ Prod path
+			 */
+			handlePath(paths.build, paths.css)
+		)
 	)
 );
 
@@ -189,6 +237,18 @@ gulp.task('dev',
 			handleWatch,
 			handleReload
 		)
+	)
+);
+
+/**
+ * @ Register gulp build task
+ */
+gulp.task('build',
+	gulp.series(
+		handleClean,
+		handleSass,
+		handleHtml,
+		handleScripts
 	)
 );
 
