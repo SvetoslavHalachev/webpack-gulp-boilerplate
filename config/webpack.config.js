@@ -1,16 +1,27 @@
 /**
- * @ External dependencies.
+ * @ External dependencies
  */
-const webpack = require('webpack');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
+/**
+ * @ Internal dependencies
+ */
+const isProdEnv = require('./env');
+const isDevEnv = require('./env');
+
+/**
+ * @ Define webpack configs
+ */
 module.exports = {
-	mode: 'development',
-
-	devtool: 'source-map',
+	mode: process.env.NODE_ENV || 'development',
 
 	entry: {
 		app: '../src/js/main.js'
 	},
+
+	devtool: isDevEnv ? 'source-map' : false,
+
+	watch: isDevEnv,
 
 	output: {
 		filename: 'js/[name].bundle.js'
@@ -34,5 +45,9 @@ module.exports = {
 				}
 			}
 		]
-	}
+	},
+
+	plugins: isProdEnv ? [
+		new UglifyJsPlugin()
+	]:[]
 };

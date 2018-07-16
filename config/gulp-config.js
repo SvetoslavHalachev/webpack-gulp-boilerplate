@@ -9,14 +9,14 @@ const sourcemaps    = require('gulp-sourcemaps');
 const autoprefixer  = require('gulp-autoprefixer');
 const plumber       = require('gulp-plumber');
 const del           = require('del');
-const browserSync   = require('browser-sync');
+const browsersync   = require('browser-sync');
 const webpackStream = require('webpack-stream');
 const webpack       = require('webpack');
 
 /**
  * @ Internal dependencies.
  */
-const browserSyncConfig = require('./browsersync');
+const browsersyncConfig = require('./browsersync-config');
 const webpackConfig     = require('./webpack.config');
 
 /**
@@ -63,7 +63,7 @@ const handleError = function(err) {
 /**
  * @ Handle page reload
  */
-const handleReload = () => browserSync(browserSyncConfig);
+const handleReload = () => browsersync(browsersyncConfig);
 
 /**
  * @ Handle dev folder copy
