@@ -57,6 +57,11 @@ module.exports = {
 			'window.jQuery': 'jquery'
 		})
 	]:[
-		new UglifyJsPlugin()
+		new UglifyJsPlugin(),
+		new webpack.ProvidePlugin({
+			$: 'jquery',
+			jQuery: 'jquery',
+			'window.jQuery': 'jquery'
+		})
 	]
 };
