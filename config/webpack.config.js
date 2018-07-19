@@ -1,7 +1,8 @@
 /**
  * @ External dependencies
  */
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const webpack        = require('webpack');
 
 /**
  * @ Internal dependencies
@@ -46,7 +47,13 @@ module.exports = {
 		]
 	},
 
-	plugins: isDevEnv ? [] : [
+	plugins: isDevEnv ? [
+		new webpack.ProvidePlugin({
+			$: 'jquery',
+			jQuery: 'jquery',
+			'window.jQuery': 'jquery'
+		})
+	]:[
 		new UglifyJsPlugin()
 	]
 };
