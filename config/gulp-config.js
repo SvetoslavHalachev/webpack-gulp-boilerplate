@@ -8,6 +8,7 @@ const sassGlob      = require('gulp-sass-glob');
 const sourcemaps    = require('gulp-sourcemaps');
 const autoprefixer  = require('gulp-autoprefixer');
 const plumber       = require('gulp-plumber');
+const imagemin      = require('gulp-imagemin');
 const gulpif        = require('gulp-if');
 const del           = require('del');
 const browsersync   = require('browser-sync');
@@ -205,6 +206,68 @@ const handleSass = () => gulp.src([
 );
 
 /**
+ * @ Handle Images Optimization
+ */
+const handleImagesOptimization = () => gulp.src([
+	handlePath(paths.src, '/images/**/*')
+]).pipe(
+	gulpif(
+		isDevEnv,
+		imagemin([
+			imagemin.gifsicle({
+				interlaced: true
+			}),
+			imagemin.jpegtran({
+				progressive: true
+			})
+		]),
+		imagemin([
+			imagemin.gifsicle({
+				interlaced: true
+			}),
+			imagemin.jpegtran({
+				progressive: true
+			}),
+			imagemin.optipng({
+				optimizationLevel: 5
+			}),
+			imagemin.svgo({
+				plugins: [
+					{ cleanupAttrs: true },
+					{ removeDoctype: true },
+					{ removeXMLProcInst: true },
+					{ removeComments: true },
+					{ removeMetadata: true },
+					{ removeUselessDefs: true },
+					{ removeEditorsNSData: true },
+					{ removeEmptyAttrs: true },
+					{ removeHiddenElems: false },
+					{ removeEmptyText: true },
+					{ removeEmptyContainers: true },
+					{ cleanupEnableBackground: true },
+					{ cleanupIDs: false },
+					{ convertStyleToAttrs: true }
+				]
+			})
+		])
+	)
+).pipe(
+	gulp.dest(
+		handleNodeEnvPath(
+			/**
+			 * @ Dev path
+			 */
+			handlePath(paths.dev, '/images'),
+
+			/**
+			 * @ Prod path
+			 */
+			handlePath(paths.build, '/images')
+		)
+	)
+);
+
+/**
  * @ Handle folders watch
  */
 const handleWatch = () => {
@@ -222,6 +285,11 @@ const handleWatch = () => {
 		handlePath(paths.src, '/sass/**/*.scss'),
 		handleSass
 	);
+
+	gulp.watch(
+		handlePath(paths.src, '/images/**/*'),
+		handleImagesOptimization
+	);
 };
 
 /**
@@ -230,6 +298,7 @@ const handleWatch = () => {
 gulp.task('build',
 	gulp.series(
 		handleClean,
+		handleImagesOptimization,
 		handleSass,
 		handleHtml,
 		handleScripts
@@ -243,6 +312,7 @@ gulp.task('default',
 	gulp.series(
 		handleClean,
 		gulp.parallel(
+			handleImagesOptimization,
 			handleSass,
 			handleHtml,
 			handleScripts,
