@@ -16,7 +16,10 @@ module.exports = {
 	mode: env ? 'development' : 'production',
 
 	entry: {
-		app: '../src/js/main.js'
+		app: [
+			'babel-polyfill',
+			'../src/js/main.js'
+		]
 	},
 
 	devtool: isDevEnv ? 'source-map' : false,
