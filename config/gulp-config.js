@@ -18,9 +18,9 @@ const webpack       = require('webpack');
 /**
  * @ Internal dependencies.
  */
-const { isDevEnv }      = require('./node-env');
-const browsersyncConfig = require('./browsersync-config');
-const webpackConfig     = require('./webpack.config');
+const { isDevEnv }  = require('./node-env');
+const serverConfig  = require('./server-config');
+const webpackConfig = require('./webpack.config');
 
 /**
  * @ The supported paths
@@ -75,7 +75,7 @@ const handleError = function(err) {
 /**
  * @ Handle page reload
  */
-const handleReload = () => browsersync(browsersyncConfig);
+const handleReload = () => browsersync(serverConfig);
 
 /**
  * @ Handle dev folder clean
