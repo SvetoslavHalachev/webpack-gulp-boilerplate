@@ -1,1 +1,41 @@
+/* ================================================== *\
+	Header
+\* ================================================== */
 
+.header {
+	padding: 50px 0;
+
+	.header-title {
+		max-width: 800px;
+		margin: 0 auto;
+		font-size: 26px;
+		font-weight: normal;
+	}
+
+	.header-logos {
+		margin-bottom: 30px; 
+
+		ul {
+			list-style-type: none;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			align-items: center;
+			margin: 0 -30px -30px;
+		}
+
+		li {
+			padding: 0 30px 30px;
+		}
+	}
+
+	@media(max-width: 767px){
+		.header-logos {
+			img {
+				max-width: 100%;
+				height: auto;
+				max-height: 180px;
+			}
+		}
+	}
+}

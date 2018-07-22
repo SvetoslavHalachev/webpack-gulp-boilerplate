@@ -1,5 +1,12 @@
+/* ================================================== *\
+	Base
+\* ================================================== */
+
 body {
-	text-align: center;
-	font-size: $font-size-base;
+	min-width: 320px;
 	background: #fff;
+	font-family: $font-family-base;
+	font-size: $font-size-base;
+	text-align: center;
+	color: $white;
 }

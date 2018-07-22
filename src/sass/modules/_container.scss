@@ -1,8 +1,10 @@
 /* ================================================== *\
-	Variables
+	Container
 \* ================================================== */
 
-$font-size-base: 14px;
-$font-family-base: Arial, sans-serif;
-
-$white: #fff;
+.container {
+	max-width: 1170px;
+	margin: 0 auto;
+	padding-left: 15px;
+	padding-right: 15px;
+}

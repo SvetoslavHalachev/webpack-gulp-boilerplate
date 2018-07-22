@@ -1,8 +1,8 @@
 /* ================================================== *\
-	Variables
+	Page Wrapper 
 \* ================================================== */
 
-$font-size-base: 14px;
-$font-family-base: Arial, sans-serif;
-
-$white: #fff;
+.page-wrapper {
+	background: linear-gradient(to bottom, #ffd452, #544a7d);
+	overflow: hidden;
+}
