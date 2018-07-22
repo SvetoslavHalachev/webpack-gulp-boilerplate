@@ -10,6 +10,26 @@ const webpack        = require('webpack');
 const { env, isDevEnv } = require('./node-env');
 
 /**
+ * @ The supported plugins
+ */
+const plugins = [
+	new webpack.ProvidePlugin({
+		$: 'jquery',
+		jQuery: 'jquery',
+		'window.jQuery': 'jquery'
+	})
+];
+
+/**
+ * @ Add production plugins
+ */
+if ( !isDevEnv ) {
+	plugins.push(
+		new UglifyJsPlugin()
+	);
+}
+
+/**
  * @ Define webpack configs
  */
 module.exports = {
@@ -50,18 +70,5 @@ module.exports = {
 		]
 	},
 
-	plugins: isDevEnv ? [
-		new webpack.ProvidePlugin({
-			$: 'jquery',
-			jQuery: 'jquery',
-			'window.jQuery': 'jquery'
-		})
-	]:[
-		new UglifyJsPlugin(),
-		new webpack.ProvidePlugin({
-			$: 'jquery',
-			jQuery: 'jquery',
-			'window.jQuery': 'jquery'
-		})
-	]
+	plugins: plugins
 };
