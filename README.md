@@ -11,8 +11,8 @@ You need to install all the dependencies before start using the boilerplate, for
 
 ###### Gulp Tasks
 
-Task Name         | Description
------------------ | ---------------------------------------------------------------------
+Task Name                     | Description
+----------------------------- | ---------------------------------------------------------------------
 `npm run start or yarn start` | Starts a development environment which watches for any project changes.
 `npm run build or yarn build` | Compile all files ready for production. Javascript and CSS are bundled and minified. Images and svg files are minified.
 
@@ -28,31 +28,31 @@ Everything inside `dev/` folder is for development purposes only. You should not
 ├── .gitignore
 ├── dev
 ├── config
-│   └── browsersync-config.js
-│   └── gulp-config.js
-│   └── node-env.js
+│   ├── browsersync-config.js
+│   ├── gulp-config.js
+│   ├── node-env.js
 │   └── webpack.config.js
 └── src
-	└── images
-	└── js
-	└── sass
-	└── home.html
+    ├── images
+    ├── js
+    ├── sass
+    └── home.html
 ```
 
 ### Images
 All images should be placed inside the `src/images/` folder. After `npm run build or yarn start` only those images which are located in `src/images/` will be minified.
 
 ### JS
-All the scripts should be placed inside the `src/js/` folder. Currently `src/js/main.js` is the main javascript file which handles all other modules if there is any. You can split your javascript code in to seperate files. And the use ES6 `import and export` features to use them where you need to.
+All the scripts should be placed inside the `src/js/` folder. Currently `src/js/main.js` is the main javascript file which handles all other modules if there is any. You can split your javascript code in to seperate files. And use ES6 `import and export` features to use them where you need to.
 
 For example:
 
 ```
 ├── src
     └── js
-		└── main.js
-		├── ui
-			└── module.js
+        ├── main.js
+        └── ui
+            └── module.js
 ```
 
 ### SCSS (SASS)
