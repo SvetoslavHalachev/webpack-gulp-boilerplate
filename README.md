@@ -16,10 +16,10 @@ You need to install all the dependencies before start using the boilerplate, for
 
 ###### Gulp Tasks
 
-Task Name                     | Description
------------------------------ | ---------------------------------------------------------------------
-`npm run start or yarn start` | Starts a development environment which watches for any project changes.
-`npm run build or yarn build` | Compile all files ready for production. Javascript and CSS are bundled and minified. Images and svg files are minified.
+| Task Name                     | Description
+| ----------------------------- | --------------------------------------------------------------------- |
+| `npm run start or yarn start` | Starts a development environment which watches for any project changes. |
+| `npm run build or yarn build` | Compile all files ready for production. Javascript and CSS are bundled and minified. Images and svg files are minified. |
 
 
 ## File Structure
@@ -33,7 +33,7 @@ Everything inside `dev/` folder is for development purposes only. You should not
 ├── .gitignore
 ├── dev
 ├── config
-│   ├── browsersync-config.js
+│   ├── server-config.js
 │   ├── gulp-config.js
 │   ├── node-env.js
 │   └── webpack.config.js
