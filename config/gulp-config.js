@@ -78,23 +78,6 @@ const handleError = function(err) {
 const handleReload = () => browsersync(browsersyncConfig);
 
 /**
- * @ Handle dev folder copy
- */
-const handleCopy = () => gulp.src([
-	handlePath(paths.src, '/**'),
-	excludePath(paths.src, '/{css,scss,fonts,images,js}'),
-	excludePath(paths.src, '/{css,scss,fonts,images,js}/**')
-]).pipe(
-	plumber({
-		errorHandler: handleError
-	})
-).pipe(
-	gulp.dest(
-		paths.dev
-	)
-);
-
-/**
  * @ Handle dev folder clean
  */
 const handleClean = () => del(
