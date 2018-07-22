@@ -1,14 +1,21 @@
 {
   "name": "webpack-gulp-boilerplate",
+  "homepage": "https://shalachev.github.io/webpack-gulp-boilerplate/",
   "version": "1.0.0",
   "description": "Simple webpack and gulp task runner.",
-  "private": "true",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shalachev/webpack-gulp-boilerplate.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shalachev/webpack-gulp-boilerplate/issues"
+  },
   "scripts": {
     "start": "gulp --gulpfile config/gulp-config.js",
     "build": "cross-env NODE_ENV=production npm run start -- build"
   },
   "author": "Svetoslav Halachev",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "jquery": "^3.3.1"
