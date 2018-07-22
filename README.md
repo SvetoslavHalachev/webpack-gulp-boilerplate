@@ -1,6 +1,12 @@
 # webpack-gulp-boilerplate
 A nice and clean front-end boilerplate for projects with multiple html files which supports ES6+ javascript features using gulp and webpack.
 
+[![GitHub issues](https://img.shields.io/github/issues/shalachev/webpack-gulp-boilerplate.svg)](https://github.com/shalachev/webpack-gulp-boilerplate/issues)
+[![GitHub forks](https://img.shields.io/github/forks/shalachev/webpack-gulp-boilerplate.svg)](https://github.com/shalachev/webpack-gulp-boilerplate/network)
+[![GitHub stars](https://img.shields.io/github/stars/shalachev/webpack-gulp-boilerplate.svg)](https://github.com/shalachev/webpack-gulp-boilerplate/stargazers)
+[![GitHub license](https://img.shields.io/github/license/shalachev/webpack-gulp-boilerplate.svg)](https://github.com/shalachev/webpack-gulp-boilerplate/blob/master/LICENSE)
+[![Github All Releases](https://img.shields.io/github/downloads/atom/atom/total.svg)](https://github.com/shalachev/webpack-gulp-boilerplate)
+
 ## Installation and Usage
 You need to install all the dependencies before start using the boilerplate, for example:
 
