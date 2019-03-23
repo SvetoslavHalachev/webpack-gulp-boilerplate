@@ -11,7 +11,7 @@
     "url": "https://github.com/shalachev/webpack-gulp-boilerplate/issues"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=development gulp --gulpfile config/gulpfile.babel.js",
+    "start": "gulp --gulpfile config/gulpfile.babel.js",
     "build": "cross-env NODE_ENV=production npm run start -- build"
   },
   "author": "Svetoslav Halachev",

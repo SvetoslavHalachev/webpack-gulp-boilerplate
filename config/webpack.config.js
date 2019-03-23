@@ -75,12 +75,14 @@ module.exports = {
           options: {
             cacheDirectory: is_development,
             presets: [
-              '@babel/preset-env',
-              {
-                targets: {
-                  browsers: ['last 3 versions']
+              [
+                '@babel/preset-env',
+                {
+                  targets: {
+                    browsers: ['last 3 versions']
+                  }
                 }
-              }
+              ]
             ],
             plugins: ['@babel/plugin-transform-runtime']
           }

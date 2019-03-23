@@ -1,306 +1,346 @@
 /**
- * @ External dependencies.
+ * The external dependencies.
  */
-const gulp          = require('gulp');
-const notify        = require('gulp-notify');
-const sass          = require('gulp-sass');
-const sassGlob      = require('gulp-sass-glob');
-const sourcemaps    = require('gulp-sourcemaps');
-const autoprefixer  = require('gulp-autoprefixer');
-const plumber       = require('gulp-plumber');
-const imagemin      = require('gulp-imagemin');
-const gulpif        = require('gulp-if');
-const del           = require('del');
-const browsersync   = require('browser-sync');
-const webpackStream = require('webpack-stream');
-const webpack       = require('webpack');
+import {
+  src,
+  dest,
+  watch,
+  task,
+  series,
+  parallel
+} from 'gulp';
+import gulpNotify from 'gulp-notify';
+import gulpSass from 'gulp-sass';
+import gulpSassGlob from 'gulp-sass-glob';
+import gulpSourcemaps from 'gulp-sourcemaps';
+import gulpAutoprefixer from 'gulp-autoprefixer';
+import gulpPlumber from 'gulp-plumber';
+import gulpImagemin from 'gulp-imagemin';
+import gulpIf from 'gulp-if';
+
+import del from 'del';
+import browsersync from 'browser-sync';
+
+import webpack from 'webpack';
+import webpackStream from 'webpack-stream';
 
 /**
- * @ Internal dependencies.
+ * The internal dependencies.
  */
-const { isDevEnv }  = require('./node-env');
-const serverConfig  = require('./server-config');
-const webpackConfig = require('./webpack.config');
+import {
+  is_development,
+  is_production
+} from './env';
+import browsersyncConfig from './browsersync';
+import webpackConfig from './webpack.config';
 
 /**
- * @ The supported paths
+ * The supported folder paths
+ *
+ * @type {Object}
  */
 const paths = {
-	src: '../src',
-	dev: '../dev',
-	build: '../build',
-	css: '/css',
-	scripts: {
-		entry: '../src/js/main.js'
-	}
+  src: '../src',
+  dev: '../dev',
+  build: '../build',
+
+  resources: '/resources',
+  css: '/css',
+  js: '/js',
+  scripts: 'js/main.js'
 };
 
 /**
- * @ Handle custom path
+ * Handle folders path.
+ *
+ * @param  {String} The default path
+ * @param  {String} The additional path
+ * @return {String}
  */
-const handlePath = (
-	defaultPath,
-	additionalPath
-) => defaultPath + additionalPath;
+const handlePath = (defaultPath, additionalPath) => `${defaultPath}/${additionalPath}`;
 
 /**
- * @ Exclude custom path
+ * Handle node environment paths.
+ *
+ * @param  {String} The development path
+ * @param  {String} The product path
+ * @return {String}
  */
-const excludePath = (
-	defaultPath,
-	additionalPath
-) => '!' + handlePath(defaultPath, additionalPath);
+const handleNodeEnvPath = (devPath, prodPath) => is_development ? devPath : prodPath;
 
 /**
- * @ Handle node environment paths
- */
-const handleNodeEnvPath = (
-	devPath,
-	prodPath
-) => isDevEnv ? devPath : prodPath;
-
-/**
- * @ Handle error
+ * Handle gulp error.
+ *
+ * @param {Object} The error
  */
 const handleError = function(err) {
-	notify.onError({
-		title: 'Gulp',
-		subtitle: 'Failure!',
-		message: 'Error: <%= error.message %>'
-	})(err);
+  gulpNotify.onError({
+    title: 'Gulp',
+    subtitle: 'Failure!',
+    message: 'Error: <%= error.message %>'
+  })(err);
 
-	this.emit('end');
+  this.emit('end');
 };
 
 /**
- * @ Handle page reload
+ * Handle browsersync page reload.
+ *
+ * @return {Function}
  */
-const handleReload = () => browsersync(serverConfig);
+const handleReload = () => browsersync(browsersyncConfig);
 
 /**
- * @ Handle dev folder clean
+ * Handle dev/build folder clean.
+ *
+ * @return {Function}
  */
 const handleClean = () => del(
-	[
-		paths.dev,
-		paths.build
-	],
-	{
-		force: true
-	}
+  [
+    paths.dev,
+    paths.build
+  ],
+  {
+    force: true
+  }
 );
 
 /**
- * @ Handle javascript files through webpack
+ * Handle javascript files through webpack.
+ *
+ * @return {Function}
  */
-const handleScripts = () => gulp.src(
-	paths.scripts.entry
+const handleScripts = () => src(
+  handlePath(paths.src, paths.scripts)
 ).pipe(
-	plumber({
-		errorHandler: handleError
-	})
+  gulpPlumber({ errorHandler: handleError })
 ).pipe(
-	webpackStream(
-		webpackConfig,
-		webpack
-	)
+  webpackStream(webpackConfig, webpack)
 ).pipe(
-	gulp.dest(
-		handleNodeEnvPath(
-			/**
-			 * @ Dev path
-			 */
-			paths.dev,
+  dest(
+    handleNodeEnvPath(
+      // Dev path.
+      handlePath(paths.dev, paths.js),
 
-			/**
-			 * @ Prod path
-			 */
-			paths.build
-		)
-	)
+      // Prod path.
+      handlePath(paths.build, paths.js)
+    )
+  )
 );
 
 /**
- * @ Handle html files
+ * Handle html files.
+ *
+ * @return {Function}
  */
-const handleHtml = () => gulp.src([
-	handlePath(paths.src, '/**/*.html')
+const handleHtml = () => src([
+  handlePath(paths.src, '**/*.html')
 ]).pipe(
-	plumber({
-		errorHandler: handleError
-	})
+  gulpPlumber({ errorHandler: handleError })
 ).pipe(
-	gulp.dest(
-		handleNodeEnvPath(
-			/**
-			 * @ Dev path
-			 */
-			paths.dev,
+  dest(
+    handleNodeEnvPath(
+      // Dev path.
+      paths.dev,
 
-			/**
-			 * @ Prod path
-			 */
-			paths.build
-		)
-	)
+      // Prod path.
+      paths.build
+    )
+  )
 );
 
 /**
- * @ Handle css files
+ * Handle css files
+ *
+ * @return {Function}
  */
-const handleSass = () => gulp.src([
-	handlePath(paths.src, '/sass/**/*.scss')
+const handleSass = () => src([
+  handlePath(paths.src, 'sass/**/*.scss')
 ]).pipe(
-	plumber({
-		errorHandler: handleError
-	})
+  gulpPlumber({ errorHandler: handleError })
 ).pipe(
-	gulpif(
-		isDevEnv,
-		sourcemaps.init()
-	)
+  gulpIf(
+    is_development,
+    gulpSourcemaps.init()
+  )
 ).pipe(
-	sassGlob()
+  gulpSassGlob()
 ).pipe(
-	sass({
-		outputStyle: isDevEnv ? 'compact' : 'compressed'
-	}).on('error', handleError)
+  gulpSass({
+    outputStyle: is_development ? 'compact' : 'compressed'
+  }).on('error', handleError)
 ).pipe(
-	autoprefixer('last 3 versions')
+  gulpAutoprefixer('last 3 versions')
 ).pipe(
-	gulpif(
-		isDevEnv,
-		sourcemaps.write()
-	)
+  gulpIf(
+    is_development,
+    gulpSourcemaps.write()
+  )
 ).pipe(
-	gulp.dest(
-		handleNodeEnvPath(
-			/**
-			 * @ Dev path
-			 */
-			handlePath(paths.dev, paths.css),
+  dest(
+    handleNodeEnvPath(
+      // Dev path.
+      handlePath(paths.dev, paths.css),
 
-			/**
-			 * @ Prod path
-			 */
-			handlePath(paths.build, paths.css)
-		)
-	)
+      // Prod path.
+      handlePath(paths.build, paths.css)
+    )
+  )
 );
 
 /**
- * @ Handle Images Optimization
+ * Handle Images Optimization
+ *
+ * @return {Function}
  */
-const handleImagesOptimization = () => gulp.src([
-	handlePath(paths.src, '/images/**/*')
-]).pipe(
-	gulpif(
-		isDevEnv,
-		imagemin([
-			imagemin.gifsicle({
-				interlaced: true
-			}),
-			imagemin.jpegtran({
-				progressive: true
-			})
-		]),
-		imagemin([
-			imagemin.gifsicle({
-				interlaced: true
-			}),
-			imagemin.jpegtran({
-				progressive: true
-			}),
-			imagemin.optipng({
-				optimizationLevel: 5
-			}),
-			imagemin.svgo({
-				plugins: [
-					{ cleanupAttrs: true },
-					{ removeDoctype: true },
-					{ removeXMLProcInst: true },
-					{ removeComments: true },
-					{ removeMetadata: true },
-					{ removeUselessDefs: true },
-					{ removeEditorsNSData: true },
-					{ removeEmptyAttrs: true },
-					{ removeHiddenElems: false },
-					{ removeEmptyText: true },
-					{ removeEmptyContainers: true },
-					{ cleanupEnableBackground: true },
-					{ cleanupIDs: false },
-					{ convertStyleToAttrs: true }
-				]
-			})
-		])
-	)
-).pipe(
-	gulp.dest(
-		handleNodeEnvPath(
-			/**
-			 * @ Dev path
-			 */
-			handlePath(paths.dev, '/images'),
+const handleImagesOptimization = () => src([
+  handleNodeEnvPath(
+    // Dev path.
+    handlePath(paths.dev, 'resources/images/**/*'),
 
-			/**
-			 * @ Prod path
-			 */
-			handlePath(paths.build, '/images')
-		)
-	)
+    // Prod path
+    handlePath(paths.build, 'resources/images/**/*')
+  )
+]).pipe(
+  gulpIf(
+    is_production,
+    gulpImagemin([
+      gulpImagemin.gifsicle({
+        interlaced: true
+      }),
+      gulpImagemin.jpegtran({
+        progressive: true
+      })
+    ]),
+    gulpImagemin([
+      gulpImagemin.gifsicle({
+        interlaced: true
+      }),
+      gulpImagemin.jpegtran({
+        progressive: true
+      }),
+      gulpImagemin.optipng({
+        optimizationLevel: 5
+      }),
+      gulpImagemin.svgo({
+        plugins: [
+          { cleanupAttrs: true },
+          { removeDoctype: true },
+          { removeXMLProcInst: true },
+          { removeComments: true },
+          { removeMetadata: true },
+          { removeUselessDefs: true },
+          { removeEditorsNSData: true },
+          { removeEmptyAttrs: true },
+          { removeHiddenElems: false },
+          { removeEmptyText: true },
+          { removeEmptyContainers: true },
+          { cleanupEnableBackground: true },
+          { cleanupIDs: false },
+          { convertStyleToAttrs: true }
+        ]
+      })
+    ])
+  )
+).pipe(
+  dest(
+    handleNodeEnvPath(
+      // Dev path.
+      handlePath(paths.dev, 'resources/images'),
+
+      // Prod path
+      handlePath(paths.build, 'resources/images')
+    )
+  )
 );
 
 /**
- * @ Handle folders watch
+ * Handle resources folder.
+ *
+ * @return {Function}
+ */
+const handleResources = () => src([
+  handlePath(paths.src, 'resources/**'),
+  `!${handlePath(paths.src, 'resources/images/')}`,
+  `!${handlePath(paths.src, 'resources/images/**/*')}`
+])
+.pipe(
+  gulpPlumber({ errorHandler: handleError })
+).pipe(
+  dest(
+    handleNodeEnvPath(
+      // Dev path.
+      handlePath(paths.dev, paths.resources),
+
+      // Prod path
+      handlePath(paths.build, paths.resources)
+    )
+  )
+);
+
+/**
+ * Handle folders watch.
+ *
+ * @return {Void}
  */
 const handleWatch = () => {
-	gulp.watch(
-		handlePath(paths.src, '/**/*.js'),
-		handleScripts
-	);
+  watch(
+    handlePath(paths.src, '**/*.js'),
+    handleScripts
+  );
 
-	gulp.watch(
-		handlePath(paths.src, '/**/*.html'),
-		handleHtml
-	);
+  watch(
+    handlePath(paths.src, '**/*.html'),
+    handleHtml
+  );
 
-	gulp.watch(
-		handlePath(paths.src, '/sass/**/*.scss'),
-		handleSass
-	);
+  watch(
+    handlePath(paths.src, 'sass/**/*.scss'),
+    handleSass
+  );
 
-	gulp.watch(
-		handlePath(paths.src, '/images/**/*'),
-		handleImagesOptimization
-	);
+  watch(
+    [
+      handlePath(paths.src, 'resources/**/*'),
+      `!${handlePath(paths.src, 'resources/images/')}`,
+      `!${handlePath(paths.src, 'resources/images/**/*')}`
+    ],
+    handleResources
+  );
+
+  watch(
+    handlePath(paths.src, 'resources/images/**/*'),
+    handleImagesOptimization
+  )
 };
 
 /**
- * @ Register gulp build task
+ * Register gulp build task.
  */
-gulp.task('build',
-	gulp.series(
-		handleClean,
-		handleImagesOptimization,
-		handleSass,
-		handleHtml,
-		handleScripts
-	)
+task('build',
+  series(
+    handleClean,
+    handleResources,
+    handleImagesOptimization,
+    handleSass,
+    handleHtml,
+    handleScripts
+  )
 );
 
 /**
- * @ Register gulp default task
+ * Register gulp default task.
  */
-gulp.task('default', 
-	gulp.series(
-		handleClean,
-		gulp.parallel(
-			handleImagesOptimization,
-			handleSass,
-			handleHtml,
-			handleScripts,
-			handleWatch,
-			handleReload
-		)
-	)
+task('default', 
+  series(
+    handleClean,
+    parallel(
+      handleResources,
+      handleSass,
+      handleHtml,
+      handleScripts,
+      handleWatch,
+      handleReload
+    )
+  )
 );
