@@ -16,49 +16,57 @@ You need to install all the dependencies before start using the boilerplate, for
 
 ###### Gulp Tasks
 
-| Task Name                     | Description
-| ----------------------------- | --------------------------------------------------------------------- |
-| `npm run start or yarn start` | Starts a development environment which watches for any project changes. |
-| `npm run build or yarn build` | Compile all files ready for production. Javascript and CSS are bundled and minified. Images and svg files are minified. |
+- `npm run start or yarn start` Starts the development environment which watches for any project changes.
+- `npm run build or yarn build` Compiles all files ready for production. Javascript and CSS are bundled and minified. Images and svg files are also minified.
 
 
 ## File Structure
-The working directory for development is `src/`.
-Everything inside `dev/` folder is for development purposes only. You should not change anything in `dev/` folder.
+The development directory is `src/`.
+You should not change anything in `dev/` or `build/` folders if you want to make a change start the project and work in `src/` folder.
 
 ```
-├── README.md
-├── node_modules
-├── package.json
-├── .gitignore
-├── dev
-├── config
-│   ├── server-config.js
-│   ├── gulp-config.js
-│   ├── node-env.js
-│   └── webpack.config.js
-└── src
-    ├── images
-    ├── js
-    ├── sass
-    └── home.html
+├─ node_modules
+├─ build
+├─ dev
+├─ tools
+│ ├─ gulpfile.babel.js
+│ │ ├─ tasks
+│ │ ├─ utils
+│ │ └─ index.js
+│ ├─ browsersync.js
+│ ├─ env.js
+│ └─ webpack.config.js
+├─ src
+│ ├─ js
+│ ├─ partials
+│ ├─ recources
+│ ├─ sass
+│ └─ home.html
+├─ .babelrc
+├─ package.json
+├─ .gitignore
+└─ README.md
 ```
 
-### Images
-All images should be placed inside the `src/images/` folder. After `npm run build or yarn start` only those images which are located in `src/images/` will be minified.
+## Partials
+Partials can be used to split your html into components.
+All partials are located in `src/partials` folder.
+After you create your partial lets say `header.html` then all you need to do is include it by following this syntax `@@include('header.html')`.
+By default the main folder of the includes is `src/partials`.
+You can create sub folders for example - `src/partials/sub-folder` and then use it by specifying the sub folder in the include `@@include('sub-folder/example.html')`
 
-### JS
-All the scripts should be placed inside the `src/js/` folder. Currently `src/js/main.js` is the main javascript file which handles all other modules if there is any. You can split your javascript code in to seperate files. And use ES6 `import and export` features to use them where you need to.
+## JS
+All the scripts should be placed inside the `src/js/` folder. Currently `src/js/main.js` is the main javascript file which handles all other modules if there is any. You can split your javascript code in to seperate files.
 
 For example:
 
 ```
 ├── src
-    └── js
-        ├── main.js
-        └── ui
-            └── module.js
+  └── js
+    ├── main.js
+    └── ui
+      └── module.js
 ```
 
-### SCSS (SASS)
+## SCSS (SASS)
 All `scss` files should be placed in the `src/sass/` folder. Currently `sass/main.scss` is the main `scss` file where all other `scss` files should be be imported.
