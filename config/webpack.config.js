@@ -1,74 +1,91 @@
 /**
- * @ External dependencies
+ * The internal dependencies.
  */
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const webpack        = require('webpack');
+const webpack = require('webpack');
 
 /**
- * @ Internal dependencies
+ * The external dependencies.
  */
-const { env, isDevEnv } = require('./node-env');
+const {
+  is_production,
+  is_development
+} = require('./env');
 
 /**
- * @ The supported plugins
- */
-const plugins = [
-	new webpack.ProvidePlugin({
-		$: 'jquery',
-		jQuery: 'jquery',
-		'window.jQuery': 'jquery'
-	})
-];
-
-/**
- * @ Add production plugins
- */
-if ( !isDevEnv ) {
-	plugins.push(
-		new UglifyJsPlugin()
-	);
-}
-
-/**
- * @ Define webpack configs
+ * Define the webpack configs.
+ * 
+ * @type {Object}
  */
 module.exports = {
-	mode: env ? 'development' : 'production',
+  /**
+   * The webpack mode.
+   * 
+   * @type {String}
+   */
+  mode: is_production ? 'production' : 'development',
 
-	entry: {
-		app: [
-			'babel-polyfill',
-			'../src/js/main.js'
-		]
-	},
+  /**
+   * The output file.
+   */
+  output: {
+    filename: 'bundle.js'
+  },
 
-	devtool: isDevEnv ? 'source-map' : false,
+  /**
+   * Setup devtool option only for development mode.
+   * 
+   * @type {String/Boolean}
+   */
+  devtool: is_development ? 'source-map' : false,
 
-	output: {
-		filename: 'js/[name].bundle.js'
-	},
+  /**
+   * Setup watch option only for development mode.
+   * 
+   * @type {Boolean}
+   */
+  watch: is_development,
 
-	watch: isDevEnv,
+  /**
+   * Setup the plugins.
+   * 
+   * @type {Array}
+   */
+  plugins: [
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+      'window.jQuery': 'jquery'
+    })
+  ],
 
-	module: {
-		rules: [
-			{
-				test: /\.js$/,
-				exclude: /node_modules/,
-				loader: 'babel-loader',
-				options: {
-					babelrc: false,
-					presets: [
-						['env', {
-							targets: {
-								browsers: ['last 3 versions']
-							}
-						}]
-					]
-				}
-			}
-		]
-	},
-
-	plugins: plugins
+  /**
+   * Setup the module/rules.
+   * 
+   * @type {Object}
+   */
+  module: {
+    rules: [
+      // the 'transform-runtime' plugin tells Babel to
+      // require the runtime instead of inlining it.
+      {
+        test: /\.m?js$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            cacheDirectory: is_development,
+            presets: [
+              '@babel/preset-env',
+              {
+                targets: {
+                  browsers: ['last 3 versions']
+                }
+              }
+            ],
+            plugins: ['@babel/plugin-transform-runtime']
+          }
+        }
+      }
+    ]
+  }
 };

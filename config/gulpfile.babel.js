@@ -69,7 +69,7 @@ const handleError = function(err) {
 		message: 'Error: <%= error.message %>'
 	})(err);
 
-	this.emit('end'); 
+	this.emit('end');
 };
 
 /**
