@@ -16,11 +16,10 @@ import gulpSourcemaps from 'gulp-sourcemaps';
 import gulpAutoprefixer from 'gulp-autoprefixer';
 import gulpPlumber from 'gulp-plumber';
 import gulpImagemin from 'gulp-imagemin';
+import gulpFileinclude from 'gulp-file-include';
 import gulpIf from 'gulp-if';
-
 import del from 'del';
 import browsersync from 'browser-sync';
-
 import webpack from 'webpack';
 import webpackStream from 'webpack-stream';
 
@@ -44,10 +43,12 @@ const paths = {
   dev: '../dev',
   build: '../build',
 
+  partials: '/partials',
   resources: '/resources',
+  sass: '/sass',
   css: '/css',
   js: '/js',
-  scripts: 'js/main.js'
+  scripts: '/js/main.js'
 };
 
 /**
@@ -134,9 +135,15 @@ const handleScripts = () => src(
  * @return {Function}
  */
 const handleHtml = () => src([
-  handlePath(paths.src, '**/*.html')
+  handlePath(paths.src, '**/*.html'),
+  `!${handlePath(paths.src, `${paths.partials}/**`)}`
 ]).pipe(
   gulpPlumber({ errorHandler: handleError })
+).pipe(
+  gulpFileinclude({
+    prefix: '@@',
+    basepath: handlePath(paths.src, paths.partials)
+  })
 ).pipe(
   dest(
     handleNodeEnvPath(
@@ -155,7 +162,7 @@ const handleHtml = () => src([
  * @return {Function}
  */
 const handleSass = () => src([
-  handlePath(paths.src, 'sass/**/*.scss')
+  handlePath(paths.src, `${paths.sass}/**/*.scss`)
 ]).pipe(
   gulpPlumber({ errorHandler: handleError })
 ).pipe(
@@ -196,10 +203,10 @@ const handleSass = () => src([
 const handleImagesOptimization = () => src([
   handleNodeEnvPath(
     // Dev path.
-    handlePath(paths.dev, 'resources/images/**/*'),
+    handlePath(paths.dev, `${paths.resources}/images/**/*`),
 
     // Prod path
-    handlePath(paths.build, 'resources/images/**/*')
+    handlePath(paths.build, `${paths.resources}/images/**/*`)
   )
 ]).pipe(
   gulpIf(
@@ -246,10 +253,10 @@ const handleImagesOptimization = () => src([
   dest(
     handleNodeEnvPath(
       // Dev path.
-      handlePath(paths.dev, 'resources/images'),
+      handlePath(paths.dev, `${paths.resources}/images`),
 
       // Prod path
-      handlePath(paths.build, 'resources/images')
+      handlePath(paths.build, `${paths.resources}/images`)
     )
   )
 );
@@ -260,9 +267,9 @@ const handleImagesOptimization = () => src([
  * @return {Function}
  */
 const handleResources = () => src([
-  handlePath(paths.src, 'resources/**'),
-  `!${handlePath(paths.src, 'resources/images/')}`,
-  `!${handlePath(paths.src, 'resources/images/**/*')}`
+  handlePath(paths.src, `${paths.resources}/**`),
+  `!${handlePath(paths.src, `${paths.resources}/images`)}`,
+  `!${handlePath(paths.src, `${paths.resources}/images/**/*`)}`
 ])
 .pipe(
   gulpPlumber({ errorHandler: handleError })
@@ -285,31 +292,34 @@ const handleResources = () => src([
  */
 const handleWatch = () => {
   watch(
-    handlePath(paths.src, '**/*.js'),
+    handlePath(paths.src, `${paths.js}/**/*.js`),
     handleScripts
   );
 
   watch(
-    handlePath(paths.src, '**/*.html'),
+    [
+      handlePath(paths.src, '**/*.html'),
+      `!${handlePath(paths.src, `${paths.partials}/**`)}`
+    ],
     handleHtml
   );
 
   watch(
-    handlePath(paths.src, 'sass/**/*.scss'),
+    handlePath(paths.src, `${paths.sass}/**/*.scss`),
     handleSass
   );
 
   watch(
     [
-      handlePath(paths.src, 'resources/**/*'),
-      `!${handlePath(paths.src, 'resources/images/')}`,
-      `!${handlePath(paths.src, 'resources/images/**/*')}`
+      handlePath(paths.src, `${paths.resources}/**/*`),
+      `!${handlePath(paths.src, `${paths.resources}/images`)}`,
+      `!${handlePath(paths.src, `${paths.resources}/images/**/*`)}`
     ],
     handleResources
   );
 
   watch(
-    handlePath(paths.src, 'resources/images/**/*'),
+    handlePath(paths.src, `${paths.resources}/images/**/*`),
     handleImagesOptimization
   )
 };

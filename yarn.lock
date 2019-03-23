@@ -2979,7 +2979,7 @@ extend-shallow@^3.0.0, extend-shallow@^3.0.2:
     assign-symbols "^1.0.0"
     is-extendable "^1.0.1"
 
-extend@^3.0.0, extend@~3.0.2:
+extend@^3.0.0, extend@^3.0.1, extend@~3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.2.tgz#f8b1136b4071fbd8eb140aff858b1019ec2915fa"
   integrity sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==
@@ -3207,6 +3207,11 @@ flagged-respawn@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/flagged-respawn/-/flagged-respawn-1.0.1.tgz#e7de6f1279ddd9ca9aac8a5971d618606b3aab41"
   integrity sha512-lNaHNVymajmk0OJMBn8fVUAU1BtDeKIqKoVhk4xAALB57aALg6b4W0MfJ/cUE0g9YBXy5XhSlPIpYIJ7HaY/3Q==
+
+flatnest@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/flatnest/-/flatnest-1.0.0.tgz#20421ad05b46c63cad30ef14a8ec625f86b3f1c5"
+  integrity sha1-IEIa0FtGxjytMO8UqOxiX4az8cU=
 
 flush-write-stream@^1.0.0, flush-write-stream@^1.0.2:
   version "1.1.1"
@@ -3654,6 +3659,19 @@ gulp-cli@^2.0.0:
     semver-greatest-satisfied-range "^1.1.0"
     v8flags "^3.0.1"
     yargs "^7.1.0"
+
+gulp-file-include@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/gulp-file-include/-/gulp-file-include-2.0.1.tgz#dc4d754559361f24c0a2da653c1c85233372a757"
+  integrity sha512-CqwcK/X+GsHbOeJ7RUgUKGGD34UR7gVyHEmeJOwVdJKPdMMr505JtAh5cqKupcaISS4vDSMfJk+RmD1J7kxT+Q==
+  dependencies:
+    balanced-match "^1.0.0"
+    concat-stream "^1.6.0"
+    extend "^3.0.1"
+    flatnest "^1.0.0"
+    plugin-error "^0.1.2"
+    through2 "^2.0.3"
+    vinyl "^2.1.0"
 
 gulp-if@^2.0.2:
   version "2.0.2"
