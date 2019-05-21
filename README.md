@@ -5,6 +5,7 @@ A nice and clean front-end boilerplate for projects with multiple html files whi
 [![GitHub forks](https://img.shields.io/github/forks/shalachev/webpack-gulp-boilerplate.svg)](https://github.com/shalachev/webpack-gulp-boilerplate/network)
 [![GitHub stars](https://img.shields.io/github/stars/shalachev/webpack-gulp-boilerplate.svg)](https://github.com/shalachev/webpack-gulp-boilerplate/stargazers)
 [![GitHub license](https://img.shields.io/github/license/shalachev/webpack-gulp-boilerplate.svg)](https://github.com/shalachev/webpack-gulp-boilerplate/blob/master/LICENSE)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/c0a5c122-288a-44a7-810f-50a19f2cb4f8/deploy-status)](https://app.netlify.com/sites/webpack-gulp-boilerplate/deploys)
 
 ## Installation and Usage
 You need to install all the dependencies before start using the boilerplate, for example:
