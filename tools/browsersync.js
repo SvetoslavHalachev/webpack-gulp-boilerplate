@@ -1,4 +1,10 @@
 /**
+ * The internal dependencies.
+ */
+const paths = require('./gulpfile.babel.js/utils/paths').default;
+const { handlePath } = require('./gulpfile.babel.js/utils/path-handlers');
+
+/**
  * The browsersync configs.
  * 
  * @type {Object}
@@ -8,9 +14,9 @@ module.exports = {
   port: 3000,
   open: 'external',
   files: [
-    '../dev/**/*.css',
-    '../dev/**/*.js',
-    '../dev/**/*.html'
+    handlePath(paths.dev, '**/*.css'),
+    handlePath(paths.dev, '**/*.js'),
+    handlePath(paths.dev, '**/*.html')
   ],
   snippetOptions: {
     rule: {
@@ -19,7 +25,7 @@ module.exports = {
     }
   },
   server: {
-    baseDir: '../dev',
+    baseDir: handlePath(paths.dev),
     directory: true
   },
   reloadThrottle: 100

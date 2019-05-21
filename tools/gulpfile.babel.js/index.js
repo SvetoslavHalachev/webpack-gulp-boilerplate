@@ -25,25 +25,25 @@ import handleImagesOptimization from './tasks/images';
 task('build',
   series(
     handleClean,
-    handleResources,
-    handleImagesOptimization,
     handleCSS,
+    handleScripts,
     handleHtml,
-    handleScripts
+    handleResources,
+    handleImagesOptimization
   )
 );
 
 /**
- * Register gulp default task.
+ * Register gulp dev task.
  */
 task('default',
   series(
     handleClean,
     parallel(
-      handleResources,
       handleCSS,
-      handleHtml,
       handleScripts,
+      handleHtml,
+      handleResources,
       handleWatch,
       handleReload
     )

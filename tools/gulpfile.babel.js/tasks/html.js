@@ -37,10 +37,10 @@ const handleHtml = () => src([
   dest(
     handleNodeEnvPath(
       // Dev path.
-      paths.dev,
+      handlePath(paths.dev),
 
       // Prod path.
-      paths.build
+      handlePath(paths.build)
     )
   )
 );

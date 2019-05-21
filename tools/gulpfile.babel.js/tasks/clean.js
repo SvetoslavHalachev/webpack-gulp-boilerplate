@@ -6,6 +6,7 @@ import del from 'del';
 /**
  * The internal dependencies.
  */
+import { handlePath } from '../utils/path-handlers';
 import paths from '../utils/paths';
 
 /**
@@ -15,8 +16,8 @@ import paths from '../utils/paths';
  */
 const handleClean = () => del(
   [
-    paths.dev,
-    paths.build
+    handlePath(paths.dev),
+    handlePath(paths.build)
   ],
   {
     force: true

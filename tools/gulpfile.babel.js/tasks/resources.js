@@ -23,9 +23,7 @@ import {
  * @return {Function}
  */
 const handleResources = () => src([
-  handlePath(paths.src, `${paths.resources}/**`),
-  `!${handlePath(paths.src, `${paths.resources}/images`)}`,
-  `!${handlePath(paths.src, `${paths.resources}/images/**/*`)}`
+  handlePath(paths.src, `${paths.resources}/**`)
 ])
 .pipe(
   gulpPlumber({ errorHandler: handleError })

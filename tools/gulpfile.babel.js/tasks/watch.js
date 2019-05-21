@@ -12,7 +12,6 @@ import handleScripts from './scripts';
 import handleHtml from './html';
 import handleCSS from './css';
 import handleResources from './resources';
-import handleImagesOptimization from './images';
 import paths from '../utils/paths';
 import { handlePath } from '../utils/path-handlers';
 
@@ -23,7 +22,12 @@ import { handlePath } from '../utils/path-handlers';
  */
 const handleWatch = () => {
   watch(
-    handlePath(paths.src, `${paths.js}/**/*.js`),
+    handlePath(paths.src, `${paths.sass}/**/*.scss`),
+    handleCSS
+  );
+
+  watch(
+    handlePath(paths.src, `${paths.js}/*.js`),
     handleScripts
   );
 
@@ -36,23 +40,9 @@ const handleWatch = () => {
   );
 
   watch(
-    handlePath(paths.src, `${paths.sass}/**/*.scss`),
-    handleCSS
-  );
-
-  watch(
-    [
-      handlePath(paths.src, `${paths.resources}/**/*`),
-      `!${handlePath(paths.src, `${paths.resources}/images`)}`,
-      `!${handlePath(paths.src, `${paths.resources}/images/**/*`)}`
-    ],
+    handlePath(paths.src, `${paths.resources}/**`),
     handleResources
   );
-
-  watch(
-    handlePath(paths.src, `${paths.resources}/images/**/*`),
-    handleImagesOptimization
-  )
 };
 
 export default handleWatch;

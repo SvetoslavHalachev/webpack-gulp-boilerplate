@@ -13,6 +13,8 @@ import browsersyncConfig from '../../browsersync';
  *
  * @return {Function}
  */
-const handleReload = () => browsersync(browsersyncConfig);
+const handleReload = () => {
+  browsersync(browsersyncConfig);
+};
 
 export default handleReload;

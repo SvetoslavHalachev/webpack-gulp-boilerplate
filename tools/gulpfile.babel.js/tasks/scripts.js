@@ -28,10 +28,10 @@ import {
 const handleScripts = () => src(
   handlePath(paths.src, paths.scripts)
 ).pipe(
-  gulpPlumber({ errorHandler: handleError })
-).pipe(
   webpackStream(webpackConfig, webpack)
-).pipe(
+).on('error', function handleError() {
+  this.emit('end'); // Recover from errors
+}).pipe(
   dest(
     handleNodeEnvPath(
       // Dev path.

@@ -1,10 +1,10 @@
 /**
- * The internal dependencies.
+ * The external dependencies.
  */
 const webpack = require('webpack');
 
 /**
- * The external dependencies.
+ * The internal dependencies.
  */
 const {
   is_production,
@@ -13,13 +13,13 @@ const {
 
 /**
  * Define the webpack configs.
- * 
+ *
  * @type {Object}
  */
 module.exports = {
   /**
    * The webpack mode.
-   * 
+   *
    * @type {String}
    */
   mode: is_production ? 'production' : 'development',
@@ -33,21 +33,21 @@ module.exports = {
 
   /**
    * Setup devtool option only for development mode.
-   * 
+   *
    * @type {String/Boolean}
    */
   devtool: is_development ? 'source-map' : false,
 
   /**
    * Setup watch option only for development mode.
-   * 
+   *
    * @type {Boolean}
    */
   watch: is_development,
 
   /**
    * Setup the plugins.
-   * 
+   *
    * @type {Array}
    */
   plugins: [
@@ -60,20 +60,19 @@ module.exports = {
 
   /**
    * Setup the module/rules.
-   * 
+   *
    * @type {Object}
    */
   module: {
     rules: [
-      // the 'transform-runtime' plugin tells Babel to
-      // require the runtime instead of inlining it.
       {
-        test: /\.m?js$/,
-        exclude: /(node_modules|bower_components)/,
+        test: /\.js$/,
+        exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
             cacheDirectory: is_development,
+            comments: false,
             presets: [
               [
                 '@babel/preset-env',

@@ -2,18 +2,18 @@
 	Variables
 \* ================================================== */
 
-@import 'variables/*.scss';
+@import './variables/*.scss';
 
 /* ================================================== *\
 	Modules
 \* ================================================== */
 
-@import 'modules/reset';
-@import 'modules/base';
-@import 'modules/page-wrapper';
-@import 'modules/container';
-@import 'modules/main';
-@import 'modules/header';
-@import 'modules/footer';
-@import 'modules/card';
-@import 'modules/btn';
+@import './modules/reset';
+@import './modules/base';
+@import './modules/page-wrapper';
+@import './modules/container';
+@import './modules/main';
+@import './modules/header';
+@import './modules/footer';
+@import './modules/card';
+@import './modules/btn';
