@@ -27,7 +27,7 @@ const handleWatch = () => {
   );
 
   watch(
-    handlePath(paths.src, `${paths.js}/*.js`),
+    handlePath(paths.src, `${paths.js}/**/*.js`),
     handleScripts
   );
 

@@ -39,13 +39,6 @@ module.exports = {
   devtool: is_development ? 'source-map' : false,
 
   /**
-   * Setup watch option only for development mode.
-   *
-   * @type {Boolean}
-   */
-  watch: is_development,
-
-  /**
    * Setup the plugins.
    *
    * @type {Array}
