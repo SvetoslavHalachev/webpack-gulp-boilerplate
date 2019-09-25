@@ -32,10 +32,7 @@ const handleWatch = () => {
   );
 
   watch(
-    [
-      handlePath(paths.src, '**/*.html'),
-      `!${handlePath(paths.src, `${paths.partials}/**`)}`
-    ],
+    handlePath(paths.src, '**/*.html'),
     handleHtml
   );
 

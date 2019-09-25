@@ -23,10 +23,9 @@ import {
  *
  * @return {Function}
  */
-const handleHtml = () => src([
-  handlePath(paths.src, '**/*.html'),
-  `!${handlePath(paths.src, `${paths.partials}/**`)}`
-]).pipe(
+const handleHtml = () => src(
+  handlePath(paths.src, '**/*.html')
+).pipe(
   gulpPlumber({ errorHandler: handleError })
 ).pipe(
   gulpFileinclude({
